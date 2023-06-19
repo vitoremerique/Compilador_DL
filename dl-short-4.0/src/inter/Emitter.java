@@ -69,9 +69,16 @@ public final class Emitter {
 	//%6 = add i32 %4, %5
 	public void emitOperation(Expr dest, Expr op1, Expr op2, Tag op) {
 		emit( dest + " = " 
+				+ codeOperation(op, op1.type()) +" "
+				+  codeType(op1.type()) 
+				+ " " + op1 + ", "+ op2 ); 
+	}
+
+	public void emitPo(Expr dest, Expr op1, Expr op2, Tag op) {
+		emit( dest + " = " 
 				+ codeOperation(op, op1.type()) 
-				+ " " + codeType(op1.type()) 
-				+ " " + op1 + ", " + op2 ); 
+				+ " (" + codeType(op1.type()) 
+				+ " " + op1 + ", "+ codeType(op2.type()) +" "+ op2 +")"); 
 	}
 
 	//%26 = sitofp i32 1 to double
@@ -106,6 +113,15 @@ public final class Emitter {
 				+ id + ")" );
 	}
 
+
+	public void emitExp(Expr id, Expr id2) {
+		
+		Temp tPrint = new Temp(id.type());
+		
+		emit(tPrint + " = call double @llvm.pow.f64("+codeType(id.type())+" "+
+		id+", "+ codeType(id2.type()) +" "+id2);
+	}
+
 	public static String codeType(Tag type) {
 		switch (type) {
 		case BOOL: return "i1";
@@ -124,6 +140,7 @@ public final class Emitter {
 			case LT:  return "fcmp olt";
 			case LE:  return "fcmp ole";
 			case GT:  return "fcmp ogt";
+			case EXP:  return "call double @llvm.pow.f64";
 			default:  return null;
 			}
 		} else {
@@ -134,6 +151,7 @@ public final class Emitter {
 			case LT:  return "icmp slt";
 			case LE:  return "icmp sle";
 			case GT:  return "icmp sgt";
+			case EXP: return "@pow";
 			default: return null;
 			}	
 		}
@@ -143,8 +161,10 @@ public final class Emitter {
 		emit(";LLVM version 3.8.0 (http://llvm.org/)");
 		emit(";program " + name.lexeme());
 		emit("declare i32 @printf(i8*, ...) nounwind");
+		emit("declare double @llvm.pow.f64(double, double)");
 		emit("@str_print_int = private unnamed_addr constant [4 x i8] c\"%d\\0A\\00\", align 1");
 		emit("@str_print_double = private unnamed_addr constant [7 x i8] c\"%.2lf\\0A\\00\", align 1");
+		
 		emit("define i32 @main() nounwind {");
 	}
 

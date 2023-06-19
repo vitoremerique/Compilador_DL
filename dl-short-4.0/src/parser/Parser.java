@@ -8,6 +8,7 @@ import inter.expr.Expr;
 import inter.expr.Id;
 import inter.expr.Literal;
 import inter.expr.Or;
+import inter.expr.Po;
 import inter.expr.Rel;
 import inter.stmt.Assign;
 import inter.stmt.Block;
@@ -179,13 +180,26 @@ public class Parser {
 	}
 
 	private Expr term() {
-		Expr e = factor();
-		while(	look.tag() == Tag.MUL || look.tag() == Tag.EXP ) {
+		Expr e = po();
+		while(	look.tag() == Tag.MUL ) {
 			Token op = move();
-			e = new Bin(op, e, factor());
+			e = new Bin(op, e, po());
 		}
 		return e;
 	}
+
+	private Expr po() {
+		Expr e = factor();
+		while(	 look.tag() == Tag.EXP) {
+			Token op = move();
+			e = new Po(op, e, factor());
+		}
+		return e;
+	}
+
+	
+
+
 
 	private Expr factor() {
 		Expr e = null;

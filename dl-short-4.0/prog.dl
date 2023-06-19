@@ -1,7 +1,8 @@
-programa teste inicio
-  inteiro a; inteiro b; real c;
+programa trabalho inicio
+
+  real a; inteiro b; real c;
   a = 2;
   b = 3;
-  c = (a+b)**2.0;
+  c = a**a;
   escreva(c);
 fim.

@@ -1,24 +1,24 @@
 ;LLVM version 3.8.0 (http://llvm.org/)
-;program teste
+;program trabalho
 declare i32 @printf(i8*, ...) nounwind
+declare double @llvm.pow.f64(double, double)
 @str_print_int = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1
 @str_print_double = private unnamed_addr constant [7 x i8] c"%.2lf\0A\00", align 1
 define i32 @main() nounwind {
-%a = alloca i32
-store i32 0, i32* %a
+%a = alloca double
+store double 0.0, double* %a
 %b = alloca i32
 store i32 0, i32* %b
 %c = alloca double
 store double 0.0, double* %c
-store i32 2, i32* %a
+%1 = sitofp i32 2 to double
+store double %1, double* %a
 store i32 3, i32* %b
-%1 = load i32, i32* %a
-%2 = load i32, i32* %b
-%3 = add i32 %1, %2
-%4 = sitofp i32 %3 to double
-%5 = null double %4, 2.0
-store double %5, double* %c
-%6 = load double, double* %c
-%7 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds([7 x i8], [7 x i8]* @str_print_double, i32 0, i32 0), double %6)
+%2 = load double, double* %a
+%3 = load double, double* %a
+%4 = call double @llvm.pow.f64 (double %2, double %3)
+store double %4, double* %c
+%5 = load double, double* %c
+%6 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds([7 x i8], [7 x i8]* @str_print_double, i32 0, i32 0), double %5)
 ret i32 0
 }
