@@ -7,6 +7,7 @@ import lexer.Token;
 public abstract class Expr extends Node {
 	protected Token op;
 	protected Tag type;
+	public boolean isInt;
 
 	public Expr(Token op, Tag type) {
 		this.op = op;
@@ -42,4 +43,19 @@ public abstract class Expr extends Node {
 		error("Tipos incompatíveis");
 		return null;
 	}
+
+	public static Expr widenPo(Expr e, Tag type) {
+		if ( e.type != type || e.type().isReal() )
+			return e;
+		else if ( e.type().isInt() == type.isInt()) {
+			Temp t = new Temp(Tag.REAL);
+			code.emitConvert(t, e);
+			return t;
+		}
+		error("Tipos incompatíveis");
+		return null;
+	}
+
+	
+	
 }

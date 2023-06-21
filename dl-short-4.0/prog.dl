@@ -1,8 +1,10 @@
 programa trabalho inicio
 
-  real a; inteiro b; real c;
-  a = 2;
+  real a; inteiro b; real c; 
+  a = 3;
   b = 3;
-  c = a**a-(a-b);
+  c = a**b;
   escreva(c);
+
+ 
 fim.

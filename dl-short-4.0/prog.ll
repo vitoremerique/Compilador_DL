@@ -11,19 +11,15 @@ store double 0.0, double* %a
 store i32 0, i32* %b
 %c = alloca double
 store double 0.0, double* %c
-%1 = sitofp i32 2 to double
+%1 = sitofp i32 3 to double
 store double %1, double* %a
 store i32 3, i32* %b
 %2 = load double, double* %a
-%3 = load double, double* %a
-%4 = call double @llvm.pow.f64 (double %2, double %3)
-%5 = load double, double* %a
-%6 = load i32, i32* %b
-%7 = sitofp i32 %6 to double
-%8 = fsub double %5, %7
-%9 = fsub double %4, %8
-store double %9, double* %c
-%10 = load double, double* %c
-%11 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds([7 x i8], [7 x i8]* @str_print_double, i32 0, i32 0), double %10)
+%3 = load i32, i32* %b
+%4 = sitofp i32 %3 to double
+%5 = call double @llvm.pow.f64(double %2, double %4)
+store double %5, double* %c
+%6 = load double, double* %c
+%7 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds([7 x i8], [7 x i8]* @str_print_double, i32 0, i32 0), double %6)
 ret i32 0
 }

@@ -75,10 +75,11 @@ public final class Emitter {
 	}
 
 	public void emitPo(Expr dest, Expr op1, Expr op2, Tag op) {
+		
 		emit( dest + " = " 
-				+ codeOperation(op, op1.type()) 
-				+ " (" + codeType(op1.type()) 
-				+ " " + op1 + ", "+ codeType(op2.type()) +" "+ op2 +")"); 
+				+ codeOperation(op, op1.type()) + "(double "
+				+ op1 + ", double "+ op2 +")"); 
+		
 	}
 
 	//%26 = sitofp i32 1 to double
@@ -86,6 +87,13 @@ public final class Emitter {
 		emit( dest + " = " 
 				+ "sitofp i32 " 
 				+ op + " to double" );
+	}
+
+	public void emitConvertToInt(Expr dest, Expr op){
+		emit( dest + " = " 
+				+ "fptosi double " 
+				+ op + " to i32" );
+				 
 	}
 
 	//br i1 %22, label %L6, label %L7
@@ -114,13 +122,7 @@ public final class Emitter {
 	}
 
 
-	public void emitExp(Expr id, Expr id2) {
-		
-		Temp tPrint = new Temp(id.type());
-		
-		emit(tPrint + " = call double @llvm.pow.f64("+codeType(id.type())+" "+
-		id+", "+ codeType(id2.type()) +" "+id2);
-	}
+	
 
 	public static String codeType(Tag type) {
 		switch (type) {
@@ -151,7 +153,7 @@ public final class Emitter {
 			case LT:  return "icmp slt";
 			case LE:  return "icmp sle";
 			case GT:  return "icmp sgt";
-			case EXP: return "@pow";
+			case EXP:  return "call double @llvm.pow.f64";
 			default: return null;
 			}	
 		}
@@ -162,6 +164,8 @@ public final class Emitter {
 		emit(";program " + name.lexeme());
 		emit("declare i32 @printf(i8*, ...) nounwind");
 		emit("declare double @llvm.pow.f64(double, double)");
+		
+		
 		emit("@str_print_int = private unnamed_addr constant [4 x i8] c\"%d\\0A\\00\", align 1");
 		emit("@str_print_double = private unnamed_addr constant [7 x i8] c\"%.2lf\\0A\\00\", align 1");
 		
