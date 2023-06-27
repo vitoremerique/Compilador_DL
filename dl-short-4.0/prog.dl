@@ -1,12 +1,13 @@
 programa trabalho inicio
 
 inteiro a; inteiro b; inteiro c;
-leia(a);
-leia(b);
-escreva(a);
-escreva(b);
-c=a**b;
-escreva(c);
+
+a = 10;
+enquanto(verdadeiro) inicio   
+    b = a+b;
+    escreva(b);
+
+ fim;
 
 
 fim.

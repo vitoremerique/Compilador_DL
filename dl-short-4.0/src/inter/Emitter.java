@@ -43,6 +43,12 @@ public final class Emitter {
 		emit( var + " = alloca " 
 				+ codeType(var.type()));
 	}
+	
+	public void emitWhile(Expr var) {
+		emit("br label "+ var+" !llvm.loop !6");
+	}
+
+
 
 	//store i32 %4, i32* %1, align 4
 	public void emitStore(Expr dest, Expr value) {

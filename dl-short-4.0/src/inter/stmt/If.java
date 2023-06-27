@@ -22,9 +22,10 @@ public class If extends Stmt {
 	public void gen() {
 		int l1 = code.newLabel();
 		int l2 = code.newLabel();
-		expr.jumping(l1, l2);
 		
+		expr.jumping(l1, l2);
 		code.emitLabel(l1);
+		
 		stmt.gen();
 		
 		code.emitBreak(l2);
