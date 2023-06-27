@@ -1,13 +1,12 @@
 programa trabalho inicio
 
-inteiro a; real b; 
+inteiro a; inteiro b; inteiro c;
 leia(a);
 leia(b);
 escreva(a);
 escreva(b);
+c=a**b;
+escreva(c);
 
 
-  
-
- 
 fim.

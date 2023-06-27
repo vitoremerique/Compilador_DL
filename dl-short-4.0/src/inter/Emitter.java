@@ -137,13 +137,13 @@ public final class Emitter {
 	}
 
 	public void emitReadInt(Expr id, Expr var) {
-		emit("%format_str = getelementptr inbounds [3 x i8], [3 x i8]* @str_scanf_int, i32 0, i32 0");
+		
 		Temp tScanf = new Temp(id.type());
 		emit(tScanf + " = call i32 (i8*, ...) @scanf(i8* %format_str, i32*"+" " + var +")");
 	}
 
 	public void emitReadDouble(Expr id, Expr var) {
-		emit("%format_str_double = getelementptr inbounds [4 x i8], [4 x i8]* @str_scanf_double, i32 0, i32 0");
+		
 		Temp tScanf = new Temp(id.type());
 		emit(tScanf + " = call i32 (i8*, ...) @scanf(i8* %format_str_double, double*"+" " + var +")");
 	}
@@ -202,9 +202,10 @@ public final class Emitter {
 		emit("@str_print_double = private unnamed_addr constant [7 x i8] c\"%.2lf\\0A\\00\", align 1");
 		emit("@str_scanf_int = private unnamed_addr constant [3 x i8] c\"%d\\00\", align 1");
 		emit("@str_scanf_double = private unnamed_addr constant [4 x i8] c\"%lf\\00\", align 1");
-	
-
+		
 		emit("define i32 @main() nounwind {");
+		emit("%format_str_double = getelementptr inbounds [4 x i8], [4 x i8]* @str_scanf_double, i32 0, i32 0");
+		emit("%format_str = getelementptr inbounds [3 x i8], [3 x i8]* @str_scanf_int, i32 0, i32 0");
 	}
 
 	public void emitFoot() {
