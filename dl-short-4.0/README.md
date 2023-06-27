@@ -7,15 +7,18 @@ Ela está de acordo com a gramática abaixo.
 PROGRAM				::= programa ID BLOCK  
 BLOCK				::= inicio STMTS fim  
 STMTS				::= STMT; STMTS | ε  
-STMT				::= BLOCK | DECL | ASSIGN | WRITE | IF  
+STMT				::= BLOCK | DECL | ASSIGN | WRITE | IF | READ
 DECL     			::= TYPE ID  
 ASSIGN   			::= ID = EXPR  
+WHILE               ::= enquanto(EXPR)stmt
 WRITE				::= escreva(ID)  
+READ                ::= leia(ID)
 IF					::= se (EXPR) STMT  
 EXPR				::= EXPR "|" REL | REL  
 REL					::= REL < ARITH | REL <= ARITH | REL > ARITH | ARITH  
 ARITH  				::= ARITH + TERM | ARITH - TERM | TERM  
-TERM				::= TERM * FACTOR | FACTOR  
+TERM				::= TERM * PO| PO
+PO                  ::= PO ** FACTOR | FACTOR  
 FACTOR				::= (EXPR) | ID | LIT_INT | LIT_REAL | LIT_BOOL  
 
 ## Definições Regulares

@@ -4,7 +4,7 @@ public enum Tag {
 	//Reserved Words
 	PROGRAM("PROGRAM"), BEGIN("BEGIN"), END("END"),
 	INT("INT"), REAL("REAL"), BOOL("BOOL"),
-	WRITE("WRITE"), IF("IF"),
+	WRITE("WRITE"), IF("IF"), READ("READ"),
 	//Assign
 	ASSIGN("ASSIGN"),
 	//Arithmetical Operators
@@ -16,7 +16,7 @@ public enum Tag {
 	//Symbols
 	SEMI("SEMI"), DOT("DOT"), LPAREN("LPAREN"), RPAREN("RPAREN"),
 	//Literals and Identifiers
-	LIT_INT("LIT_INT"), LIT_REAL("LIT_REAL"), ID("ID"),
+	LIT_INT("LIT_INT"), LIT_REAL("LIT_REAL"), ID("ID"),LIT_FLOAT("LIT_FLOAT"),
 	TRUE("TRUE"), FALSE("FALSE"),
 	//Others
 	EOF("EOF"), UNK("UNK"), TEMP("TEMP");

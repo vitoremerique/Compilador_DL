@@ -12,6 +12,7 @@ public class Id extends Expr {
 	@Override
 	public Expr gen() {
 		Temp d = new Temp(type);
+		
 		code.emitLoad(d, this);
 		return d;
 	}

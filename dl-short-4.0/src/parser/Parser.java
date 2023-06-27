@@ -15,6 +15,7 @@ import inter.stmt.Block;
 import inter.stmt.Decl;
 import inter.stmt.If;
 import inter.stmt.Program;
+import inter.stmt.Read;
 import inter.stmt.Stmt;
 import inter.stmt.Write;
 import lexer.Lexer;
@@ -104,6 +105,7 @@ public class Parser {
 		case INT: case REAL: 
 			case BOOL: return decl();
 		case WRITE: return writeStmt();
+		case READ: return ReadStmt();
 		case ID: return assign();
 		case IF: return ifStmt();
 		default: error("comando inválido");
@@ -131,6 +133,14 @@ public class Parser {
 		Id id = findId( match(Tag.ID) );
 		match(Tag.RPAREN);
 		return new Write(id);
+	}
+
+	private Stmt ReadStmt() {
+		move();
+		match(Tag.LPAREN);
+		Id id = findId( match(Tag.ID) );
+		match(Tag.RPAREN);
+		return new Read(id);
 	}
 
 	private Stmt assign() {

@@ -114,11 +114,42 @@ public final class Emitter {
 		if ( id.type().isReal() )
 			str = "[7 x i8], [7 x i8]* @str_print_double";
 		Temp tPrint = new Temp(id.type());
-		emit( tPrint + " = call i32 (i8*, ...) "
-				+ "@printf(i8* getelementptr inbounds"
-				+ "(" + str + ", i32 0, i32 0), "
-				+ codeType(id.type()) + " "
-				+ id + ")" );
+		emit( tPrint + " = call i32 (i8*, ...) " 
+		+ "@printf(i8* getelementptr inbounds" 
+		+ "(" + str + ", i32 0, i32 0), " + codeType(id.type()) + " " + id + ")" );
+	}
+
+	public void emitConvertDbToFt(Expr dest,Expr op){
+		emit(dest+ " = " + "fptrunc double "+op+" to float");
+	}
+
+	public void emitConvertFtToDb(Expr dest, Expr op){
+		emit(dest+" = fpext float "+op+" to double");
+
+		// fpext float %6 to double
+	}
+
+	public void emitLoadTemp(Expr dest, Expr value) {
+		emit( dest + " = load " 
+				+ codeType(dest.type()) + ", "
+				+ codeType(dest.type()) + " " 
+				+ value);
+	}
+
+	public void emitReadInt(Expr id, Expr var) {
+		emit("%format_str = getelementptr inbounds [3 x i8], [3 x i8]* @str_scanf_int, i32 0, i32 0");
+		Temp tScanf = new Temp(id.type());
+		emit(tScanf + " = call i32 (i8*, ...) @scanf(i8* %format_str, i32*"+" " + var +")");
+	}
+
+	public void emitReadDouble(Expr id, Expr var) {
+		emit("%format_str_double = getelementptr inbounds [4 x i8], [4 x i8]* @str_scanf_double, i32 0, i32 0");
+		Temp tScanf = new Temp(id.type());
+		emit(tScanf + " = call i32 (i8*, ...) @scanf(i8* %format_str_double, double*"+" " + var +")");
+	}
+
+	public void e(Expr var) {
+		emit(var +"");
 	}
 
 
@@ -129,6 +160,7 @@ public final class Emitter {
 		case BOOL: return "i1";
 		case INT: return "i32";
 		case REAL: return "double";
+		
 		default: return "";
 		}
 	}
@@ -163,12 +195,15 @@ public final class Emitter {
 		emit(";LLVM version 3.8.0 (http://llvm.org/)");
 		emit(";program " + name.lexeme());
 		emit("declare i32 @printf(i8*, ...) nounwind");
+		emit("declare i32 @scanf(i8*, ...)");
 		emit("declare double @llvm.pow.f64(double, double)");
-		
 		
 		emit("@str_print_int = private unnamed_addr constant [4 x i8] c\"%d\\0A\\00\", align 1");
 		emit("@str_print_double = private unnamed_addr constant [7 x i8] c\"%.2lf\\0A\\00\", align 1");
-		
+		emit("@str_scanf_int = private unnamed_addr constant [3 x i8] c\"%d\\00\", align 1");
+		emit("@str_scanf_double = private unnamed_addr constant [4 x i8] c\"%lf\\00\", align 1");
+	
+
 		emit("define i32 @main() nounwind {");
 	}
 
