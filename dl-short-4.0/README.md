@@ -1,3 +1,5 @@
+# Equipe
+Jhonicley Pereira da Silva, Jarlison Neves de Sousa, Vitor Torres Emerique, Adriana Fernandes da Silva
 # dl-short-4
 Este projeto é uma versão resumida da linguagem DL.  
 Esta versao faz as análises léxica, sintática e semântica e a geração de código intermediário.  
